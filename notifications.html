@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>通知中心｜集页 JIYE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="logo" href="index.html"><span class="ji">集页</span> JIYE <small>PORTFOLIO</small></a>
+    <nav class="nav-links">
+      <a href="index.html">首页</a><a href="templates.html">模板</a>
+      <a href="works.html">我的作品集</a><a href="diagnosis.html">AI诊断</a>
+      <a href="community.html" class="active">消息社区</a>
+    </nav>
+    <div class="nav-right">
+      <button class="icon-btn" onclick="history.back()">←</button>
+      <button class="burger">☰</button>
+      <button class="btn btn-ghost" data-save-toast="已全部标为已读">全部已读</button>
+    </div>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="wrap"><h1>🔔 通知中心</h1><p>互动、系统与作品动态都在这里</p></div>
+</section>
+
+<section class="section" style="padding-top:10px">
+  <div class="wrap" style="max-width:820px">
+    <div class="chips reveal" style="margin-bottom:22px">
+      <button class="chip active">全部</button>
+      <button class="chip">👍 点赞评论</button>
+      <button class="chip">📢 系统通知</button>
+      <button class="chip">🎀 作品动态</button>
+    </div>
+
+    <div class="notice unread reveal">
+      <div class="ic">💬</div>
+      <div><b>阿柚 评论了你的帖子</b><p>「封面好可爱！樱桃插画和手写体很搭～」</p><time>10 分钟前</time></div>
+      <span class="dot"></span>
+    </div>
+    <div class="notice unread reveal">
+      <div class="ic">👍</div>
+      <div><b>Lily 等 12 人赞了你的作品集</b><p>《小樱桃的毕业作品集》获得新的点赞</p><time>1 小时前</time></div>
+      <span class="dot"></span>
+    </div>
+    <div class="notice reveal">
+      <div class="ic">🎀</div>
+      <div><b>你的模板「Sweet Cherry」使用人数突破 12,000！</b><p>感谢你的优质模板，继续加油～</p><time>昨天</time></div>
+    </div>
+    <div class="notice reveal">
+      <div class="ic">🤖</div>
+      <div><b>AI 诊断提醒：作品仍有 2 项待完善</b><p>「Project 信息」与「过程展示」建议补充后再发布</p><time>2 天前</time></div>
+    </div>
+    <div class="notice reveal">
+      <div class="ic">📢</div>
+      <div><b>【活动】毕业作品集大赛开始投稿啦</b><p>参与即有机会获得精美周边与官方推荐位</p><time>3 天前</time></div>
+    </div>
+    <div class="notice reveal">
+      <div class="ic">🔧</div>
+      <div><b>系统维护通知</b><p>10 月 8 日凌晨 0:00–2:00 部分功能可能暂时不可用</p><time>5 天前</time></div>
+    </div>
+  </div>
+</section>
+
+<script src="main.js"></script>
+</body>
+</html>

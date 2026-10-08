@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>模板广场｜集页 JIYE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="logo" href="index.html"><span class="ji">集页</span> JIYE <small>PORTFOLIO</small></a>
+    <nav class="nav-links">
+      <a href="index.html">首页</a>
+      <a href="templates.html" class="active">模板</a>
+      <a href="works.html">我的作品集</a>
+      <a href="diagnosis.html">AI诊断</a>
+      <a href="community.html">消息社区</a>
+    </nav>
+    <div class="nav-right">
+      <button class="icon-btn" title="搜索" onclick="location.href='search.html'">🔍</button>
+      <button class="icon-btn" title="通知" onclick="location.href='notifications.html'">🔔</button>
+      <button class="burger">☰</button>
+      <a class="btn btn-pink" href="editor.html">开始创作</a>
+    </div>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="wrap">
+    <h1>模板广场</h1>
+    <p>2400+ 套精选作品集模板，挑一套喜欢的，一键套用开始创作</p>
+  </div>
+</section>
+
+<section class="section" style="padding-top:10px">
+  <div class="wrap">
+    <div class="chips reveal">
+      <button class="chip active" data-filter="all">全部</button>
+      <button class="chip" data-filter="pink">🌸 甜美可爱</button>
+      <button class="chip" data-filter="mint">🌿 极简清新</button>
+      <button class="chip" data-filter="lav">🔮 梦幻渐变</button>
+      <button class="chip" data-filter="butter">☀️ 暖色治愈</button>
+      <button class="chip" data-filter="sky">💙 清爽商务</button>
+      <button class="chip" data-filter="dark">🖤 高级黑白</button>
+      <button class="chip">📚 学术严谨</button>
+    </div>
+
+    <div class="result-meta reveal d1">当前显示 <b id="filter-count">12</b> 套模板</div>
+
+    <div class="cards">
+      <a class="tpl reveal" href="template-detail.html" data-cat="pink"><button class="fav-btn"></button><div class="thumb grad-pink">🍒<span class="use">甜美可爱</span></div><div class="body"><h4>Sweet Cherry</h4><div class="cat">插画/视觉传达</div><div class="foot"><span class="av"><i>粉</i>12.6k</span><span class="use-btn">使用</span></div></div></a>
+      <a class="tpl reveal d1" href="template-detail.html" data-cat="mint"><button class="fav-btn"></button><div class="thumb grad-mint">🌿<span class="use">极简清新</span></div><div class="body"><h4>Fresh Mint</h4><div class="cat">综合/摄影</div><div class="foot"><span class="av"><i>绿</i>7.2k</span><span class="use-btn">使用</span></div></div></a>
+      <a class="tpl reveal d2" href="template-detail.html" data-cat="lav"><button class="fav-btn"></button><div class="thumb grad-lav">🔮<span class="use">梦幻渐变</span></div><div class="body"><h4>Dreamy Lavender</h4><div class="cat">数字媒体艺术</div><div class="foot"><span class="av"><i>紫</i>6.5k</span><span class="use-btn">使用</span></div></div></a>
+      <a class="tpl reveal d3" href="template-detail.html" data-cat="butter"><button class="fav-btn"></button><div class="thumb grad-butter">☀️<span class="use">暖色治愈</span></div><div class="body"><h4>Butter Day</h4><div class="cat">绘本/摄影</div><div class="foot"><span class="av"><i>黄</i>5.1k</span><span class="use-btn">使用</span></div></div></a>
+
+      <a class="tpl reveal" href="template-detail.html" data-cat="sky"><button class="fav-btn"></button><div class="thumb grad-sky">💙<span class="use">清爽商务</span></div><div class="body"><h4>Sky Blue Pro</h4><div class="cat">环境/产品设计</div><div class="foot"><span class="av"><i>蓝</i>4.8k</span><span class="use-btn">使用</span></div></div></a>
+      <a class="tpl reveal d1" href="template-detail.html" data-cat="peach"><button class="fav-btn"></button><div class="thumb grad-peach">🍑<span class="use">柔和温暖</span></div><div class="body"><h4>Soft Peach</h4><div class="cat">服装/服饰设计</div><div class="foot"><span class="av"><i>桃</i>4.2k</span><span class="use-btn">使用</span></div></div></a>
+      <a class="tpl reveal d2" href="template-detail.html" data-cat="dark"><button class="fav-btn"></button><div class="thumb" style="background:linear-gradient(135deg,#3a3742,#5a5666)">🖤<span class="use">高级黑白</span></div><div class="body"><h4>Black Studio</h4><div class="cat">纯艺术/摄影</div><div class="foot"><span class="av"><i>黑</i>3.9k</span><span class="use-btn">使用</span></div></div></a>
+      <a class="tpl reveal d3" href="template-detail.html" data-cat="pink"><button class="fav-btn"></button><div class="thumb grad-pink">🎀<span class="use">甜美可爱</span></div><div class="body"><h4>Ribbon Pink</h4><div class="cat">视觉传达</div><div class="foot"><span class="av"><i>粉</i>3.4k</span><span class="use-btn">使用</span></div></div></a>
+
+      <a class="tpl reveal" href="template-detail.html" data-cat="mint"><button class="fav-btn"></button><div class="thumb grad-mint">🍃<span class="use">自然森系</span></div><div class="body"><h4>Forest Note</h4><div class="cat">插画/动画</div><div class="foot"><span class="av"><i>绿</i>3.1k</span><span class="use-btn">使用</span></div></div></a>
+      <a class="tpl reveal d1" href="template-detail.html" data-cat="lav"><button class="fav-btn"></button><div class="thumb grad-lav">🌙<span class="use">梦幻星空</span></div><div class="body"><h4>Moonlight</h4><div class="cat">数字媒体</div><div class="foot"><span class="av"><i>紫</i>2.8k</span><span class="use-btn">使用</span></div></div></a>
+      <a class="tpl reveal d2" href="template-detail.html" data-cat="butter"><button class="fav-btn"></button><div class="thumb grad-butter">🍯<span class="use">蜂蜜暖调</span></div><div class="body"><h4>Honey Milk</h4><div class="cat">绘本/手工艺</div><div class="foot"><span class="av"><i>黄</i>2.3k</span><span class="use-btn">使用</span></div></div></a>
+      <a class="tpl reveal d3" href="template-detail.html" data-cat="sky"><button class="fav-btn"></button><div class="thumb grad-sky">🫧<span class="use">气泡透明</span></div><div class="body"><h4>Bubble Pop</h4><div class="cat">综合创意</div><div class="foot"><span class="av"><i>蓝</i>2.0k</span><span class="use-btn">使用</span></div></div></a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap"><div class="footer-bottom" style="border:none"><span>© 2026 集页 JIYE · 校园作业演示项目</span><span>Made with 💗 for graduates</span></div></div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

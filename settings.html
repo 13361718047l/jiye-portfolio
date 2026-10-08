@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>账号设置｜集页 JIYE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="logo" href="index.html"><span class="ji">集页</span> JIYE <small>PORTFOLIO</small></a>
+    <nav class="nav-links">
+      <a href="index.html">首页</a><a href="templates.html">模板</a>
+      <a href="works.html" class="active">我的作品集</a><a href="diagnosis.html">AI诊断</a>
+      <a href="community.html">消息社区</a>
+    </nav>
+    <div class="nav-right">
+      <button class="icon-btn" onclick="history.back()">←</button>
+      <button class="burger">☰</button>
+    </div>
+  </div>
+</header>
+
+<section class="section">
+  <div class="wrap set-layout">
+    <aside class="set-side reveal">
+      <a class="on">👤 个人资料</a>
+      <a>🔒 账号安全</a>
+      <a>🔔 消息通知</a>
+      <a>🎨 偏好设置</a>
+      <a>💳 会员与订单</a>
+      <a>♻️ 回收站</a>
+    </aside>
+
+    <div class="reveal d1">
+      <div class="set-card">
+        <h3>个人资料</h3>
+        <div class="avatar-edit">
+          <div class="ava">👧</div>
+          <div>
+            <button class="btn btn-ghost" data-save-toast="请选择新的头像图片">更换头像</button>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label>昵称</label><input value="小樱桃同学" /></div>
+          <div class="field"><label>个性签名</label><input value="用设计温柔地表达 🍒" /></div>
+        </div>
+        <div class="field-row">
+          <div class="field"><label>学校 / 专业</label><input value="常州大学 · 视觉传达" /></div>
+          <div class="field"><label>毕业年份</label><input value="2026 届" /></div>
+        </div>
+        <button class="btn btn-pink" data-save-toast="个人资料已保存 ✓">保存修改</button>
+      </div>
+
+      <div class="set-card">
+        <h3>🔔 通知偏好</h3>
+        <div class="switch-row"><div class="t"><b>点赞与评论通知</b><span>有人互动时提醒我</span></div><div class="switch on"></div></div>
+        <div class="switch-row"><div class="t"><b>作品集被使用通知</b><span>有人使用我的模板时提醒</span></div><div class="switch on"></div></div>
+        <div class="switch-row"><div class="t"><b>每周创作灵感推送</b><span>每周一发送模板与灵感推荐</span></div><div class="switch"></div></div>
+        <div class="switch-row"><div class="t"><b>AI 诊断提醒</b><span>作品有待完善项时通知</span></div><div class="switch on"></div></div>
+      </div>
+
+      <div class="set-card">
+        <h3>🎨 偏好设置</h3>
+        <div class="switch-row"><div class="t"><b>自动播放页面动效</b><span>浏览作品集时播放进入动画</span></div><div class="switch on"></div></div>
+        <div class="switch-row"><div class="t"><b>保存时自动 AI 诊断</b><span>每次保存自动检查完整度</span></div><div class="switch on"></div></div>
+        <div class="switch-row"><div class="t"><b>公开我的个人主页</b><span>允许其他人查看并关注我</span></div><div class="switch on"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sweet Cherry 模板详情｜集页 JIYE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="logo" href="index.html"><span class="ji">集页</span> JIYE <small>PORTFOLIO</small></a>
+    <nav class="nav-links">
+      <a href="index.html">首页</a>
+      <a href="templates.html" class="active">模板</a>
+      <a href="works.html">我的作品集</a>
+      <a href="diagnosis.html">AI诊断</a>
+      <a href="community.html">消息社区</a>
+    </nav>
+    <div class="nav-right">
+      <button class="icon-btn" title="搜索" onclick="location.href='search.html'">🔍</button>
+      <button class="burger">☰</button>
+      <a class="btn btn-pink" href="editor.html">开始创作</a>
+    </div>
+  </div>
+</header>
+
+<section class="section">
+  <div class="wrap">
+    <div class="crumb">
+      <a href="index.html">首页</a><span class="sep">/</span>
+      <a href="templates.html">模板广场</a><span class="sep">/</span>
+      <span>Sweet Cherry</span>
+    </div>
+
+    <div class="td-layout">
+      <!-- 左：手机预览 -->
+      <div class="reveal">
+        <div class="phone-frame">
+          <div class="screen grad-pink" id="td-screen">
+            <span style="font-size:90px" data-zoom="🍒">🍒</span>
+          </div>
+          <div class="shot-tabs">
+            <button class="on" data-grad="grad-pink" data-emoji="🍒">封面</button>
+            <button data-grad="grad-mint" data-emoji="🌿">目录</button>
+            <button data-grad="grad-lav" data-emoji="🔮">作品页</button>
+            <button data-grad="grad-butter" data-emoji="☀️">关于我</button>
+            <button data-grad="grad-sky" data-emoji="💙">联系方式</button>
+          </div>
+        </div>
+
+        <!-- 模板介绍 -->
+        <div style="background:#fff;border-radius:20px;box-shadow:var(--shadow);padding:30px;margin-top:22px">
+          <h2 style="font-size:21px;font-weight:900;margin-bottom:12px">模板介绍</h2>
+          <p style="color:var(--ink-2);font-size:14px;margin-bottom:12px">Sweet Cherry 是一套以樱桃粉为主色调的甜美风格作品集模板，包含封面、个人介绍、作品目录、3 个项目详情和联系方式共 <b>8 个预设页面</b>。</p>
+          <p style="color:var(--ink-2);font-size:14px;margin-bottom:12px">模板采用手写体标题搭配爱心、星星、樱桃等手绘装饰，排版留白舒适，特别适合视觉传达、插画、动画等创意专业的毕业作品集。</p>
+          <div class="tag-row">
+            <span class="tg">甜美可爱</span><span class="tg">手写体</span><span class="tg">粉色系</span>
+            <span class="tg">8 页面</span><span class="tg">可自定义配色</span><span class="tg">响应式</span>
+          </div>
+        </div>
+
+        <!-- 用户评价 -->
+        <div style="background:#fff;border-radius:20px;box-shadow:var(--shadow);padding:30px;margin-top:22px">
+          <h2 style="font-size:21px;font-weight:900;margin-bottom:6px">用户评价 · 4.9 分</h2>
+          <div class="stars" style="color:#ffb400;margin-bottom:8px">★★★★★ (328 条)</div>
+          <div class="review"><i>👧</i><div class="rb"><b>小樱桃同学 <span class="stars">★★★★★</span></span></b><time>3 天前</time><p>老师一眼就看中了我的作品集封面！替换图片超简单，手残党也能做出好看的排版。</p></div></div>
+          <div class="review"><i>🎨</i><div class="rb"><b>阿柚 <span class="stars">★★★★★</span></b><time>1 周前</time><p>配色真的太温柔了，投实习的作品集链接发出去，HR 回复率都高了～</p></div></div>
+          <div class="review"><i>🌷</i><div class="rb"><b>Lily <span class="stars">★★★★☆</span></b><time>2 周前</time><p>整体很喜欢，要是动画再多一点点就完美啦。</p></div></div>
+        </div>
+      </div>
+
+      <!-- 右：信息卡 -->
+      <aside class="td-side reveal d2">
+        <div style="display:flex;gap:6px">
+          <span style="background:var(--pink);color:#fff;font-size:11px;font-weight:800;padding:4px 11px;border-radius:var(--radius-pill)">热荐</span>
+          <span style="background:var(--mint-soft);color:#2e9b88;font-size:11px;font-weight:800;padding:4px 11px;border-radius:var(--radius-pill)">免费</span>
+        </div>
+        <h1>Sweet Cherry</h1>
+        <div style="color:var(--ink-3);font-size:13px">甜美樱桃 · 毕业作品集模板</div>
+        <div class="author"><i>🍒</i> 设计师：樱桃设计工作室</div>
+        <div class="price"><b>免费</b><span>¥29</span></div>
+        <div class="td-spec">
+          <div class="s"><span>使用人数</span><b>12,600+</b></div>
+          <div class="s"><span>页面数量</span><b>8 个</b></div>
+          <div class="s"><span>最近更新</span><b>2026-09-18</b></div>
+          <div class="s"><span>适用专业</span><b>视觉/插画/动画</b></div>
+        </div>
+        <button class="btn btn-pink btn-lg" style="width:100%;justify-content:center;margin-bottom:10px" data-use-template="Sweet Cherry">使用此模板</button>
+        <a class="btn btn-ghost btn-lg" style="width:100%;justify-content:center" href="work-preview.html">预览完整效果</a>
+        <button class="btn" style="width:100%;justify-content:center;color:var(--ink-3);margin-top:6px" data-save-toast="已加入收藏清单">♡ 收藏模板</button>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap"><div class="footer-bottom" style="border:none"><span>© 2026 集页 JIYE · 校园作业演示项目</span><span>Made with 💗 for graduates</span></div></div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

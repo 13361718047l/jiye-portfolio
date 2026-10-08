@@ -1,0 +1,327 @@
+const http = require('http');
+const fs = require('fs');
+const path = require('path');
+const dir = path.join(__dirname);
+const mime = { '.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'application/javascript; charset=utf-8','.json':'application/json','.svg':'image/svg+xml','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.gif':'image/gif','.webp':'image/webp','.mp4':'video/mp4','.pdf':'application/pdf','.ico':'image/x-icon' };
+
+// 确保上传/发布目录存在
+const UPLOAD_DIR = path.join(dir, 'uploads');
+const PUBLISH_DIR = path.join(dir, 'published');
+[UPLOAD_DIR, PUBLISH_DIR].forEach(d => { if (!fs.existsSync(d)) fs.mkdirSync(d, { recursive: true }); });
+
+// 生成短 ID（6 位）
+function genId(){
+  return Date.now().toString(36).slice(-4) + Math.random().toString(36).slice(2, 4);
+}
+
+// 简单 multipart/form-data 解析器：把文件写入 uploads/，把普通字段收集为对象
+function parseMultipart(req, boundary){
+  return new Promise((resolve, reject) => {
+    const files = [];
+    const fields = {};
+    let buf = Buffer.alloc(0);
+    const sep = Buffer.from('--' + boundary);
+    req.on('data', c => { buf = Buffer.concat([buf, c]); });
+    req.on('end', () => {
+      try {
+        // 按边界切分
+        const parts = [];
+        let start = 0;
+        while (true) {
+          const i = buf.indexOf(sep, start);
+          if (i === -1) break;
+          if (start > 0) parts.push(buf.slice(start, i));
+          start = i + sep.length;
+          // 跳过 \r\n
+          if (buf[start] === 0x0d && buf[start+1] === 0x0a) start += 2;
+          else if (buf[start] === 0x0a) start += 1;
+        }
+        for (const part of parts) {
+          // 头部与正文分隔：\r\n\r\n
+          const headerEnd = part.indexOf(Buffer.from('\r\n\r\n'));
+          if (headerEnd === -1) continue;
+          const headerStr = part.slice(0, headerEnd).toString('utf8');
+          let body = part.slice(headerEnd + 4);
+          // 去掉末尾的 \r\n（边界前的 CRLF）
+          if (body.length >= 2 && body[body.length - 2] === 0x0d && body[body.length - 1] === 0x0a) {
+            body = body.slice(0, -2);
+          }
+          // 解析头部：Content-Disposition 与 filename
+          const nameMatch = headerStr.match(/name="([^"]+)"/);
+          const fileMatch = headerStr.match(/filename="([^"]+)"/);
+          if (!nameMatch) continue;
+          const name = nameMatch[1];
+          if (fileMatch) {
+            const filename = fileMatch[1];
+            // 简单防穿越：只保留文件名
+            const safe = path.basename(filename).replace(/[^\w.\-]/g, '_');
+            const ext = path.extname(safe).toLowerCase();
+            const storedName = genId() + ext;
+            const storedPath = path.join(UPLOAD_DIR, storedName);
+            fs.writeFileSync(storedPath, body);
+            files.push({
+              field: name,
+              originalName: filename,
+              storedName,
+              url: '/uploads/' + storedName,
+              size: body.length,
+              ext: ext.slice(1)
+            });
+          } else {
+            fields[name] = body.toString('utf8');
+          }
+        }
+        resolve({ files, fields });
+      } catch (e) {
+        reject(e);
+      }
+    });
+    req.on('error', reject);
+  });
+}
+
+// DeepSeek API Key — 用户可在环境变量设置 DEEPSEEK_API_KEY，或直接填到下方引号内
+// 注册地址：https://platform.deepseek.com/  新用户送 500 万 tokens 免费额度
+const DEEPSEEK_API_KEY = process.env.DEEPSEEK_API_KEY || '';
+const DEEPSEEK_ENDPOINT = 'https://api.deepseek.com/v1/chat/completions';
+const DEEPSEEK_MODEL = 'deepseek-chat';
+
+function callDeepSeek(messages) {
+  return new Promise((resolve, reject) => {
+    if (!DEEPSEEK_API_KEY) {
+      return reject(new Error('NO_API_KEY'));
+    }
+    const body = JSON.stringify({
+      model: DEEPSEEK_MODEL,
+      messages,
+      temperature: 0.7,
+      max_tokens: 800,
+      stream: false
+    });
+    const url = new URL(DEEPSEEK_ENDPOINT);
+    const options = {
+      method: 'POST',
+      hostname: url.hostname,
+      path: url.pathname,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${DEEPSEEK_API_KEY}`,
+        'Content-Length': Buffer.byteLength(body)
+      }
+    };
+    const https = require('https');
+    const req = https.request(options, res => {
+      let data = '';
+      res.on('chunk', c => data += c);
+      res.on('end', () => {
+        if (res.statusCode !== 200) {
+          return reject(new Error(`DeepSeek ${res.statusCode}: ${data.slice(0, 200)}`));
+        }
+        try { resolve(JSON.parse(data)); }
+        catch (e) { reject(new Error('parse error: ' + e.message)); }
+      });
+    });
+    req.on('error', reject);
+    req.write(body);
+    req.end();
+  });
+}
+
+// 模拟诊断结果（无 API key 时使用）
+function mockDiagnose(workDesc) {
+  // 基于作品描述生成稳定的分数
+  const seed = workDesc.length;
+  const hash = (workDesc.split('').reduce((a,c) => a + c.charCodeAt(0), 0)) % 100;
+  return {
+    scores: {
+      visual: 70 + (hash % 25),        // 视觉完成度
+      process: 55 + (hash % 35),       // 过程完整度
+      contribution: 65 + (hash % 30), // 个人贡献
+      match: 60 + (hash % 38),        // 岗位相关
+      uniqueness: 50 + (hash % 40)    // 差异化
+    },
+    summary: `基于作品描述"${workDesc.slice(0,30)}..." 的 AI 诊断：视觉表现良好，但过程呈现仍有提升空间。建议补充设计草图、迭代版本与思考记录，提升答辩叙事的完整度。`,
+    suggestions: [
+      '补充 2-3 张设计过程草图与版本对比',
+      '增加一段个人设计思考（200 字内）',
+      '强化作品与目标岗位的关联表达'
+    ],
+    source: 'mock'
+  };
+}
+
+// 解析 AI 返回的 JSON
+function parseAIResult(content, workDesc) {
+  // 尝试从 markdown 代码块或纯 JSON 提取
+  const jsonMatch = content.match(/```(?:json)?\s*([\s\S]*?)```/) || content.match(/(\{[\s\S]*\})/);
+  if (jsonMatch) {
+    try {
+      const parsed = JSON.parse(jsonMatch[1].trim());
+      if (parsed.scores && parsed.summary) {
+        return { ...parsed, source: 'deepseek' };
+      }
+    } catch (e) { /* fall through */ }
+  }
+  // 如果解析失败，退回 mock
+  return { ...mockDiagnose(workDesc), summary: content.slice(0, 200), source: 'deepseek-fallback' };
+}
+
+const server = http.createServer(async (req, res) => {
+  let url = req.url.split('?')[0];
+
+  /* ====== 模板上传 /api/upload ====== */
+  if (url === '/api/upload' && req.method === 'POST') {
+    const ct = req.headers['content-type'] || '';
+    const m = ct.match(/boundary=(.+)$/);
+    if (!m) {
+      res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+      return res.end(JSON.stringify({ error: '需要 multipart/form-data' }));
+    }
+    try {
+      const { files, fields } = await parseMultipart(req, m[1]);
+      res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+      return res.end(JSON.stringify({
+        ok: true,
+        files,
+        fields,
+        note: `已上传 ${files.length} 个文件，可继续上传或填写信息后保存`
+      }));
+    } catch (e) {
+      res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+      return res.end(JSON.stringify({ error: '上传失败：' + e.message }));
+    }
+  }
+
+  /* ====== 发布作品集 /api/publish ====== */
+  if (url === '/api/publish' && req.method === 'POST') {
+    let body = '';
+    for await (const chunk of req) body += chunk;
+    let data;
+    try { data = JSON.parse(body); }
+    catch (e) {
+      res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+      return res.end(JSON.stringify({ error: 'Invalid JSON' }));
+    }
+    const id = genId();
+    const record = {
+      id,
+      title: (data.title || '我的作品集').slice(0, 60),
+      author: (data.author || '叶林').slice(0, 30),
+      major: (data.major || '视觉传达设计').slice(0, 40),
+      year: (data.year || '2024').slice(0, 8),
+      version: (data.version || '毕业答辩版').slice(0, 20),
+      description: (data.description || '').slice(0, 500),
+      works: Array.isArray(data.works) ? data.works.slice(0, 30) : [],
+      publishedAt: new Date().toISOString()
+    };
+    fs.writeFileSync(path.join(PUBLISH_DIR, id + '.json'), JSON.stringify(record, null, 2));
+    res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+    return res.end(JSON.stringify({
+      ok: true,
+      id,
+      shareUrl: '/#s/' + id,
+      message: '发布成功！可复制链接给老师'
+    }));
+  }
+
+  /* ====== 读取已发布作品集 /api/published/:id ====== */
+  if (url.startsWith('/api/published/') && req.method === 'GET') {
+    const id = path.basename(url).replace(/[^\w]/g, '');
+    const fp = path.join(PUBLISH_DIR, id + '.json');
+    if (!fs.existsSync(fp)) {
+      res.writeHead(404, { 'Content-Type': 'application/json; charset=utf-8' });
+      return res.end(JSON.stringify({ error: '作品集不存在或链接已失效' }));
+    }
+    const data = fs.readFileSync(fp, 'utf8');
+    res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+    return res.end(data);
+  }
+
+  /* ====== 已上传作品列表 /api/uploads ====== */
+  if (url === '/api/uploads' && req.method === 'GET') {
+    fs.readdir(UPLOAD_DIR, (err, files) => {
+      if (err) files = [];
+      const list = files.filter(f => !f.startsWith('.')).map(f => ({
+        name: f,
+        url: '/uploads/' + f,
+        ext: path.extname(f).slice(1)
+      }));
+      res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+      res.end(JSON.stringify(list));
+    });
+    return;
+  }
+
+  // CORS & JSON body for /api/*
+  if (url === '/api/diagnose' && req.method === 'POST') {
+    let body = '';
+    for await (const chunk of req) body += chunk;
+    let payload;
+    try { payload = JSON.parse(body); }
+    catch (e) {
+      res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+      return res.end(JSON.stringify({ error: 'Invalid JSON' }));
+    }
+    const workDesc = (payload.workDesc || '').trim() || '海报设计 / 2024 / 视觉传达';
+    const target = (payload.target || '').trim() || 'UI设计师';
+
+    // 无 API key → 返回 mock
+    if (!DEEPSEEK_API_KEY) {
+      const result = mockDiagnose(workDesc);
+      result.note = '当前为演示数据（未配置 DEEPSEEK_API_KEY）。配置后即可调用真实 AI 大模型。';
+      res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+      return res.end(JSON.stringify(result));
+    }
+
+    // 调用 DeepSeek
+    const systemPrompt = `你是 AI 作品诊断助手。请基于用户的作品描述，从五个维度评估并输出严格的 JSON：
+{
+  "scores": {
+    "visual": 0-100 数字,
+    "process": 0-100 数字,
+    "contribution": 0-100 数字,
+    "match": 0-100 数字,
+    "uniqueness": 0-100 数字
+  },
+  "summary": "60 字内的中文诊断总评",
+  "suggestions": ["3 条具体的改进建议，每条 25 字内"]
+}
+只输出 JSON，不要任何其他文字。`;
+
+    const userPrompt = `作品描述：${workDesc}
+目标岗位：${target}`;
+
+    try {
+      const aiResp = await callDeepSeek([
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userPrompt }
+      ]);
+      const content = aiResp.choices?.[0]?.message?.content || '';
+      const result = parseAIResult(content, workDesc);
+      res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+      return res.end(JSON.stringify(result));
+    } catch (e) {
+      // 失败则降级到 mock
+      const result = mockDiagnose(workDesc);
+      result.note = `AI 调用失败：${e.message}。已降级为演示数据。`;
+      res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+      return res.end(JSON.stringify(result));
+    }
+  }
+
+  // static files
+  if (url === '/') url = '/index.html';
+  const fp = path.join(dir, url);
+  if (!fp.startsWith(dir)) { res.writeHead(403); return res.end('Forbidden'); }
+  fs.readFile(fp, (err, data) => {
+    if (err) { res.writeHead(404); return res.end('Not found'); }
+    const ext = path.extname(fp).toLowerCase();
+    res.writeHead(200, { 'Content-Type': mime[ext] || 'application/octet-stream' });
+    res.end(data);
+  });
+});
+
+server.listen(8080, () => {
+  console.log('Server running at http://localhost:8080/');
+  console.log('DeepSeek API:', DEEPSEEK_API_KEY ? '已配置 ✓' : '未配置（使用演示数据）');
+});

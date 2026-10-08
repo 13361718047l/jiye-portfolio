@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>搜索结果｜集页 JIYE</title>
+<link rel="preconnect" string="true">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="logo" href="index.html"><span class="ji">集页</span> JIYE <small>PORTFOLIO</small></a>
+    <nav class="nav-links">
+      <a href="index.html">首页</a><a href="templates.html">模板</a>
+      <a href="works.html">我的作品集</a><a href="diagnosis.html">AI诊断</a>
+      <a href="community.html">消息社区</a>
+    </nav>
+    <div class="nav-right">
+      <button class="icon-btn" onclick="history.back()">←</button>
+      <button class="burger">☰</button>
+    </div>
+  </div>
+</header>
+
+<section class="section">
+  <div class="wrap">
+    <div class="search-box reveal">
+      <span>🔍</span>
+      <input id="q-input" placeholder="搜索模板、作品集、社区帖子…" data-enter-search />
+      <button class="btn btn-pink" onclick="JYToast('已为你刷新结果')">搜索</button>
+    </div>
+
+    <div class="chips reveal d1">
+      <button class="chip active">综合</button>
+      <button class="chip">模板</button>
+      <button class="chip">作品集</button>
+      <button class="chip">社区帖子</button>
+      <button class="chip">用户</button>
+    </div>
+
+    <div class="filter-bar reveal">
+      排序：
+      <select><option>相关度优先</option><option>最新发布</option><option>最多使用</option><option>评分最高</option></select>
+      类型：
+      <select><option>全部类型</option><option>甜美可爱</option><option>极简清新</option><option>梦幻渐变</option></select>
+    </div>
+
+    <div class="result-meta reveal">为你找到 <b id="filter-count">24</b> 条与「樱桃」相关的结果</div>
+
+    <div class="cards reveal d1">
+      <a class="tpl" href="template-detail.html"><div class="thumb grad-pink">🍒<span class="use">甜美可爱</span></div><div class="body"><h4>Sweet Cherry</h4><div class="cat">毕业作品集 · 12.6k 使用</div><div class="foot"><span class="av"><i>粉</i>4.9 分</span><span class="use-btn">使用</span></div></div></a>
+      <a class="tpl" href="template-detail.html"><div class="thumb grad-pink">🎀<span class="use">甜美可爱</span></div><div class="body"><h4>Ribbon Pink</h4><div class="cat">作品集模板 · 3.4k 使用</div><div class="foot"><span class="av"><i>粉</i>4.8 分</span><span class="use-btn">使用</span></div></div></a>
+      <a class="tpl" href="work-preview.html"><div class="thumb grad-mint">🌿<span class="use">作品集</span></div><div class="body"><h4>樱桃味的夏天</h4><div class="cat">小樱桃同学 · 1.2k 浏览</div><div class="foot"><span class="av"><i>♥</i>328</span><span class="use-btn">查看</span></div></div></a>
+      <a class="tpl" href="post-detail.html"><div class="thumb grad-lav">💬<span class="use">社区</span></div><div class="body"><h4>樱桃风作品集求点评</h4><div class="cat">帖子 · 128 赞 · 36 评论</div><div class="foot"><span class="av"><i>话</i>2 小时前</span><span class="use-btn">查看</span></div></div></a>
+    </div>
+
+    <!-- 相关搜索 -->
+    <div style="margin-top:40px" class="reveal">
+      <h3 style="font-size:16px;font-weight:800;margin-bottom:14px">相关搜索</h3>
+      <div class="chips">
+        <button class="chip">樱桃粉配色</button>
+        <button class="chip">甜美系作品集封面</button>
+        <button class="chip">手写体标题设计</button>
+        <button class="chip">视觉传达毕业模板</button>
+        <button class="chip">粉色系品牌设计</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="main.js"></script>
+<script>
+  var q = new URLSearchParams(location.search).get('q');
+  if (q) document.getElementById('q-input').value = q;
+</script>
+</body>
+</html>

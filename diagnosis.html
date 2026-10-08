@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AI 真实测评｜集页 JIYE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="logo" href="index.html"><span class="ji">集页</span> JIYE <small>PORTFOLIO</small></a>
+    <nav class="nav-links">
+      <a href="index.html">首页</a>
+      <a href="templates.html">模板</a>
+      <a href="works.html">我的作品集</a>
+      <a href="diagnosis.html" class="active">AI诊断</a>
+      <a href="community.html">消息社区</a>
+    </nav>
+    <div class="nav-right">
+      <button class="icon-btn" title="搜索" onclick="location.href='search.html'">🔍</button>
+      <button class="icon-btn" title="通知" onclick="location.href='notifications.html'">🔔</button>
+      <button class="burger">☰</button>
+      <a class="btn btn-pink" href="editor.html">开始创作</a>
+    </div>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="wrap">
+    <h1>🤖 AI 真实测评</h1>
+    <p>把你的作品集内容填进下方表单，AI 大模型将给出真实评分与可操作的改进建议</p>
+  </div>
+</section>
+
+<section class="section" style="padding-top:10px">
+  <div class="wrap" style="max-width:880px">
+
+    <!-- ===== 信息表单 ===== -->
+    <div id="ai-form">
+      <div class="ai-form-card reveal">
+        <h3>📋 作品集基本信息 <span class="live">REAL AI</span></h3>
+        <p class="sub-note">AI 会根据这些信息进行综合评估，填写越详细，测评越准确</p>
+        <div class="field-row">
+          <div class="field"><label>作品集标题 *</label><input id="f-title" placeholder="例如：Sweet Cherry 毕业作品集" /></div>
+          <div class="field"><label>所属专业</label>
+            <select class="field-select" id="f-major">
+              <option>视觉传达设计</option><option>插画 / 动画</option><option>数字媒体艺术</option>
+              <option>摄影艺术</option><option>环境设计</option><option>服装与服饰设计</option>
+              <option>产品设计</option><option>其他</option>
+            </select>
+          </div>
+        </div>
+        <div class="field" style="margin-bottom:0">
+          <label>整体风格</label>
+          <select class="field-select" id="f-style">
+            <option>甜美可爱</option><option>极简清新</option><option>梦幻渐变</option>
+            <option>暖色治愈</option><option>高级黑白</option><option>商务专业</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="ai-form-card reveal d1">
+        <h3>🗂️ 项目作品（至少填写 1 个，最多 3 个）</h3>
+        <p class="sub-note">请如实描述每个项目的内容、你的分工以及是否包含过程稿</p>
+        <div id="proj-list"></div>
+        <button class="add-proj" id="add-proj">＋ 添加一个项目</button>
+      </div>
+
+      <div class="ai-form-card reveal d2">
+        <h3>📐 页面完整度自查</h3>
+        <p class="sub-note">勾选你的作品集已经包含的页面/内容</p>
+        <div class="check-grid">
+          <label><input type="checkbox" class="page-check" value="封面" checked /> 🎀 封面页</label>
+          <label><input type="checkbox" class="page-check" value="关于我" checked /> 👤 关于我</label>
+          <label><input type="checkbox" class="page-check" value="作品目录" checked /> 📑 作品目录</label>
+          <label><input type="checkbox" class="page-check" value="联系方式" checked /> 💌 联系方式</label>
+        </div>
+        <div style="margin-top:26px">
+          <button class="btn btn-pink btn-lg" id="start-eval" style="width:100%;justify-content:center">🚀 开始真实 AI 测评</button>
+          <p class="ai-disclaimer">测评由真实大模型实时生成，每次结果可能略有不同，请耐心等待 20–60 秒</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== AI 思考中 ===== -->
+    <div class="ai-thinking" id="ai-thinking" style="display:none">
+      <div class="ai-spinner"></div>
+      <h3>AI 正在认真评审你的作品集<span class="dots-load"><span>.</span><span>.</span><span>.</span></span></h3>
+      <div class="steps-think" id="think-step">正在阅读你的作品集内容…</div>
+    </div>
+
+    <!-- ===== AI 测评结果 ===== -->
+    <div class="ai-result" id="ai-result">
+      <div class="score-hero reveal">
+        <div class="big-ring" id="big-ring">
+          <div class="ri"><div><b id="r-score">0</b><span>/ 100 总分</span></div></div>
+        </div>
+        <div class="sh-info">
+          <div class="grade" id="r-grade">测评完成</div>
+          <p id="r-summary"></p>
+        </div>
+      </div>
+
+      <div class="score-bars reveal">
+        <h3>📊 五维能力评分</h3>
+        <div id="bars"></div>
+      </div>
+
+      <div class="ai-col2">
+        <div class="ai-col reveal">
+          <h3>💗 做得好的地方</h3>
+          <ul id="r-good"></ul>
+        </div>
+        <div class="ai-col reveal d1">
+          <h3>📝 建议完善</h3>
+          <div id="r-issues"></div>
+        </div>
+      </div>
+
+      <!-- 追问对话 -->
+      <div class="ai-chat reveal">
+        <h3>💬 继续追问 AI（真实对话）</h3>
+        <div class="quick-asks">
+          <button data-ask="我应该先改哪一个问题？">先改哪个？</button>
+          <button data-ask="如何快速补充设计过程稿？">怎么补过程稿？</button>
+          <button data-ask="面试时怎么讲解这个作品集？">面试怎么讲？</button>
+        </div>
+        <div class="chat-box" id="chat-box">
+          <div class="bubble ai"><span class="who">AI 评审助手</span>测评完成啦！如果对结果有疑问，或者想知道具体怎么改，直接问我吧～</div>
+        </div>
+        <div class="chat-input">
+          <input id="chat-input" placeholder="向 AI 追问，例如：第二个问题具体怎么改？" />
+          <button class="btn btn-pink" id="chat-send">发送</button>
+        </div>
+      </div>
+
+      <div class="ai-actions reveal">
+        <button class="btn btn-pink" id="re-eval">🔄 重新测评</button>
+        <button class="btn btn-ghost" id="print-report">🖨️ 打印 / 保存报告 PDF</button>
+        <a class="btn btn-dark" href="editor.html">✏️ 回编辑器完善</a>
+      </div>
+      <p class="ai-disclaimer">以上评分与建议均由 AI 大模型根据你填写的内容实时生成，仅供学习改进参考</p>
+    </div>
+
+  </div>
+</section>
+
+<script src="main.js"></script>
+<script src="ai.js"></script>
+<script>
+(function () {
+  var projList = document.getElementById('proj-list');
+  var addBtn = document.getElementById('add-proj');
+  var projCount = 0;
+  var MAX_PROJ = 3;
+
+  function projHTML(i) {
+    return '<div class="proj-item">' +
+      (i > 0 ? '<button class="del-proj" title="删除此项目">✕</button>' : '') +
+      '<div class="field-row">' +
+      '<div class="field"><label>项目 ' + (i + 1) + ' 名称</label><input class="p-name" placeholder="例如：Sweet Cherry 品牌设计" /></div>' +
+      '<div class="field"><label>我的分工</label><input class="p-role" placeholder="例如：独立完成 / 负责插画部分" /></div>' +
+      '</div>' +
+      '<div class="field" style="margin-bottom:10px"><label>项目描述</label>' +
+      '<textarea class="p-desc" placeholder="简单介绍项目内容、使用工具和成果…"></textarea></div>' +
+      '<label style="font-size:13px;color:var(--ink-2)"><input type="checkbox" class="p-process" /> 包含草图、迭代等过程稿</label>' +
+      '</div>';
+  }
+
+  function addProject() {
+    if (projCount >= MAX_PROJ) { JYToast('最多填写 3 个项目'); return; }
+    var div = document.createElement('div');
+    div.innerHTML = projHTML(projCount);
+    projList.appendChild(div.firstChild);
+    projCount++;
+    addBtn.style.display = projCount >= MAX_PROJ ? 'none' : '';
+  }
+
+  projList.addEventListener('click', function (e) {
+    if (e.target.classList.contains('del-proj')) {
+      e.target.closest('.proj-item').remove();
+      projCount--;
+      addBtn.style.display = '';
+      // 重新编号
+      projList.querySelectorAll('.proj-item').forEach(function (el, i) {
+        var lab = el.querySelector('.field label');
+        if (lab) lab.childNodes[lab.childNodes.length - 1].nodeValue = '项目 ' + (i + 1) + ' 名称';
+      });
+    }
+  });
+  addBtn.onclick = addProject;
+  addProject(); // 默认 1 个
+
+  /* ---------- 组装作品集文本 ---------- */
+  function buildText() {
+    var title = document.getElementById('f-title').value.trim();
+    var major = document.getElementById('f-major').value;
+    var style = document.getElementById('f-style').value;
+    var text = '作品集标题：' + (title || '未填写') + '\n所属专业：' + major + '\n整体风格：' + style + '\n';
+
+    var projects = projList.querySelectorAll('.proj-item');
+    if (!projects.length) return null;
+    var hasContent = false;
+    projects.forEach(function (p, i) {
+      var name = p.querySelector('.p-name').value.trim();
+      var desc = p.querySelector('.p-desc').value.trim();
+      var role = p.querySelector('.p-role').value.trim();
+      var process = p.querySelector('.p-process').checked;
+      if (name || desc) hasContent = true;
+      text += '\n项目' + (i + 1) + '：' + (name || '未命名') +
+        '\n  描述：' + (desc || '未填写') +
+        '\n  分工：' + (role || '未填写') +
+        '\n  过程稿：' + (process ? '有' : '无') + '\n';
+    });
+
+    var pages = [].slice.call(document.querySelectorAll('.page-check:checked')).map(function (c) { return c.value; });
+    text += '\n已包含页面：' + (pages.length ? pages.join('、') : '无');
+    return hasContent ? text : null;
+  }
+
+  /* ---------- 开始测评 ---------- */
+  var formBox = document.getElementById('ai-form');
+  var thinkBox = document.getElementById('ai-thinking');
+  var resultBox = document.getElementById('ai-result');
+  var thinkStep = document.getElementById('think-step');
+  var thinkTimer;
+  var lastText = '';
+  var lastResult = null;
+
+  var THINK_LINES = [
+    '正在阅读你的作品集内容…',
+    '分析项目结构与视觉风格…',
+    '检查信息完整度与过程稿…',
+    '对照专业评审标准打分…',
+    '整理优点与改进建议…'
+  ];
+
+  function startThinking() {
+    formBox.style.display = 'none';
+    resultBox.classList.remove('show');
+    thinkBox.style.display = 'block';
+    var li = 0;
+    thinkStep.textContent = THINK_LINES[0];
+    thinkTimer = setInterval(function () {
+      li = (li + 1) % THINK_LINES.length;
+      thinkStep.textContent = THINK_LINES[li];
+    }, 6000);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+  function stopThinking() {
+    clearInterval(thinkTimer);
+    thinkBox.style.display = 'none';
+  }
+
+  document.getElementById('start-eval').onclick = function () {
+    if (!document.getElementById('f-title').value.trim()) { JYToast('请先填写作品集标题'); return; }
+    var text = buildText();
+    if (!text) { JYToast('请至少填写 1 个项目的名称或描述'); return; }
+    lastText = text;
+    startThinking();
+    JYAI.evaluate(text).then(function (data) {
+      lastResult = data;
+      renderResult(data);
+    }).catch(function (e) {
+      stopThinking();
+      formBox.style.display = '';
+      JYToast(e.message || '测评失败，请重试');
+    });
+  };
+
+  /* ---------- 渲染结果 ---------- */
+  var DIM_LABEL = {
+    content: '内容完整性', visual: '视觉表现力', structure: '结构清晰度',
+    info: '信息充分度', process: '过程展示'
+  };
+
+  function gradeOf(s) {
+    if (s >= 90) return '🏆 优秀（A）';
+    if (s >= 80) return '💗 良好（B）';
+    if (s >= 70) return '👍 中等偏上（C）';
+    if (s >= 60) return '🌱 及格（D）';
+    return '📝 需要较多改进（E）';
+  }
+
+  function renderResult(d) {
+    stopThinking();
+    resultBox.classList.add('show');
+
+    // 总分环
+    var deg = d.overall * 3.6;
+    document.getElementById('big-ring').style.background =
+      'conic-gradient(var(--pink) 0 ' + deg + 'deg,#fde7ee ' + deg + 'deg)';
+    animateNumber(document.getElementById('r-score'), d.overall);
+    document.getElementById('r-grade').textContent = gradeOf(d.overall);
+    document.getElementById('r-summary').textContent = d.summary || '';
+
+    // 五维条
+    var bars = document.getElementById('bars');
+    bars.innerHTML = '';
+    var keys = ['content', 'visual', 'structure', 'info', 'process'];
+    keys.forEach(function (k, i) {
+      var v = d.scores && d.scores[k] != null ? d.scores[k] : 0;
+      var row = document.createElement('div');
+      row.className = 'sbar';
+      row.innerHTML = '<div class="sl"><b>' + DIM_LABEL[k] + '</b><span>' + v + ' 分</span></div>' +
+        '<div class="track"><div class="fill' + (v >= 85 ? ' hi' : '') + '"></div></div>';
+      bars.appendChild(row);
+      setTimeout(function () { row.querySelector('.fill').style.width = v + '%'; }, 120 + i * 120);
+    });
+
+    // 优点
+    var good = document.getElementById('r-good');
+    good.innerHTML = '';
+    (d.strengths || []).slice(0, 6).forEach(function (s) {
+      var li = document.createElement('li');
+      li.className = 'good-li';
+      li.textContent = s;
+      good.appendChild(li);
+    });
+
+    // 问题
+    var issues = document.getElementById('r-issues');
+    issues.innerHTML = '';
+    (d.issues || []).forEach(function (it) {
+      var div = document.createElement('div');
+      div.className = 'issue-li';
+      div.innerHTML = '<div class="it"><b></b><span class="imp">预计 +<span class="im-n">0</span> 分</span></div><p></p>';
+      div.querySelector('b').textContent = it.title || '未命名问题';
+      div.querySelector('p').textContent = it.suggestion || '';
+      animateNumber(div.querySelector('.im-n'), parseInt(it.impact, 10) || 0);
+      issues.appendChild(div);
+    });
+
+    // 重置对话区
+    document.getElementById('chat-box').innerHTML =
+      '<div class="bubble ai"><span class="who">AI 评审助手</span>测评完成啦！如果对结果有疑问，或者想知道具体怎么改，直接问我吧～</div>';
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function animateNumber(el, target) {
+    var start = null, dur = 1200, finished = false;
+    el.textContent = '0';
+    function finish() {
+      if (finished) return;
+      finished = true;
+      el.textContent = target;
+    }
+    function frame(ts) {
+      if (finished) return;
+      if (!start) start = ts;
+      var p = Math.min((ts - start) / dur, 1);
+      el.textContent = Math.floor(target * (1 - Math.pow(1 - p, 3)));
+      if (p < 1) requestAnimationFrame(frame);
+      else finish();
+    }
+    requestAnimationFrame(frame);
+    setTimeout(finish, dur + 300); // 兜底：即使 rAF 不触发末帧也保证最终值
+  }
+
+  /* ---------- 重新测评 / 打印 ---------- */
+  document.getElementById('re-eval').onclick = function () {
+    resultBox.classList.remove('show');
+    formBox.style.display = '';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+  document.getElementById('print-report').onclick = function () { window.print(); };
+
+  /* ---------- AI 追问 ---------- */
+  var chatBox = document.getElementById('chat-box');
+  var chatInput = document.getElementById('chat-input');
+
+  function addBubble(role, text) {
+    var b = document.createElement('div');
+    b.className = 'bubble ' + role;
+    if (role === 'ai') b.innerHTML = '<span class="who">AI 评审助手</span>';
+    b.appendChild(document.createTextNode(text));
+    chatBox.appendChild(b);
+    chatBox.scrollTop = chatBox.scrollHeight;
+    return b;
+  }
+
+  function sendQuestion(q) {
+    if (!lastResult) { JYToast('请先完成一次测评'); return; }
+    if (!q.trim()) return;
+    addBubble('me', q);
+    chatInput.value = '';
+    var waiting = addBubble('ai', '正在思考…');
+    var messages = [
+      { role: 'system', content: JYAI.systemContext(lastText, lastResult) },
+      { role: 'user', content: q }
+    ];
+    JYAI.ask(messages).then(function (reply) {
+      waiting.textContent = '';
+      var who = document.createElement('span');
+      who.className = 'who';
+      who.textContent = 'AI 评审助手';
+      waiting.appendChild(who);
+      var div = document.createElement('div');
+      div.innerHTML = formatMD(reply);
+      waiting.appendChild(div);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }).catch(function (e) {
+      waiting.textContent = '出错了：' + (e.message || '请重试');
+    });
+  }
+
+  // 极简 markdown：转义 HTML → **加粗** → 换行
+  function formatMD(text) {
+    var esc = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    esc = esc.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    return esc.replace(/\n/g, '<br>');
+  }
+
+  document.getElementById('chat-send').onclick = function () { sendQuestion(chatInput.value); };
+  chatInput.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') sendQuestion(chatInput.value);
+  });
+  document.querySelectorAll('.quick-asks button').forEach(function (b) {
+    b.onclick = function () { sendQuestion(b.getAttribute('data-ask')); };
+  });
+})();
+</script>
+
+</body>
+</html>

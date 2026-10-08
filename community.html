@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>消息社区｜集页 JIYE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="logo" href="index.html"><span class="ji">集页</span> JIYE <small>PORTFOLIO</small></a>
+    <nav class="nav-links">
+      <a href="index.html">首页</a>
+      <a href="templates.html">模板</a>
+      <a href="works.html">我的作品集</a>
+      <a href="diagnosis.html">AI诊断</a>
+      <a href="community.html" class="active">消息社区</a>
+    </nav>
+    <div class="nav-right">
+      <button class="icon-btn" title="通知" onclick="location.href='notifications.html'">🔔</button>
+      <button class="burger">☰</button>
+      <a class="btn btn-pink" href="editor.html">＋ 发帖</a>
+    </div>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="wrap"><h1>消息社区</h1><p>和 5.6 万毕业生一起交流作品集心得，互相点赞打气</p></div>
+</section>
+
+<section class="section" style="padding-top:10px">
+  <div class="wrap comm-layout">
+    <!-- 帖子流 -->
+    <div class="reveal">
+      <div class="chips" style="margin-bottom:20px">
+        <button class="chip active">🔥 推荐</button>
+        <button class="chip">📢 最新</button>
+        <button class="chip">🎨 作品集求点评</button>
+        <button class="chip">💡 经验分享</button>
+        <button class="chip">🙋 问答求助</button>
+      </div>
+
+      <article class="post">
+        <div class="ph"><i>👧</i><div><b>小樱桃同学</b><time>2 小时前</time></div><span class="tag">求点评</span></div>
+        <h3><a href="post-detail.html">作品集终于做完啦！求大家帮忙看看封面和排版～</a></h3>
+        <p>用了 Sweet Cherry 模板，自己画了樱桃小插画，AI 诊断 85 分，想听听大家还有没有改进建议！</p>
+        <div class="imgs">
+          <div class="im grad-pink" data-zoom="🍒">🍒</div>
+          <div class="im grad-mint" data-zoom="🌿">🌿</div>
+          <div class="im grad-lav" data-zoom="🔮">🔮</div>
+        </div>
+        <div class="actions">
+          <button data-like>👍 <span class="like-n">128</span></button>
+          <button>💬 36</button>
+          <button data-save-toast="已收藏到我的清单">⭐ 收藏</button>
+        </div>
+      </article>
+
+      <article class="post">
+        <div class="ph"><i>🎓</i><div><b>毕业老学姐</b><time>昨天</time></div><span class="tag">经验分享</span></div>
+        <h3><a href="post-detail.html">拿到 3 个 offer！分享我的作品集避坑经验（长文）</a></h3>
+        <p>从排版到投递时间，总结了 8 条血泪教训，最重要的一条：作品集一定要放过程稿，面试官真的会问！</p>
+        <div class="actions">
+          <button data-like>👍 <span class="like-n">892</span></button>
+          <button>💬 154</button>
+          <button data-save-toast="已收藏到我的清单">⭐ 收藏</button>
+        </div>
+      </article>
+
+      <article class="post">
+        <div class="ph"><i>🫧</i><div><b>气泡水不加冰</b><time>2 天前</time></div><span class="tag">问答求助</span></div>
+        <h3><a href="post-detail.html">视觉传达专业投大厂实习，作品集放几个项目合适？</a></h3>
+        <p>现在有 5 个项目，怕太多面试官看不完，又怕太少显得没内容，求有经验的同学指点！</p>
+        <div class="actions">
+          <button data-like>👍 <span class="like-n">56</span></button>
+          <button>💬 42</button>
+          <button data-save-toast="已收藏到我的清单">⭐ 收藏</button>
+        </div>
+      </article>
+
+      <article class="post">
+        <div class="ph"><i>🌙</i><div><b>月野兔设计</b><time>3 天前</time></div><span class="tag">求点评</span></div>
+        <h3><a href="post-detail.html">第一次做紫色梦幻风，大家觉得配色会不会太跳？</a></h3>
+        <div class="imgs">
+          <div class="im grad-lav" data-zoom="🔮">🔮</div>
+          <div class="im grad-sky" data-zoom="🌙">🌙</div>
+          <div class="im grad-butter" data-zoom="⭐">⭐</div>
+        </div>
+        <div class="actions">
+          <button data-like>👍 <span class="like-n">74</span></button>
+          <button>💬 28</button>
+          <button data-save-toast="已收藏到我的清单">⭐ 收藏</button>
+        </div>
+      </article>
+    </div>
+
+    <!-- 侧边栏 -->
+    <aside class="reveal d2">
+      <div class="side-box">
+        <h4>🔥 热门话题</h4>
+        <div class="hot-topic"><b>1</b><span>AI 诊断怎么才能上 90 分？</span></div>
+        <div class="hot-topic"><b>2</b><span>毕业作品集封面灵感合集</span></div>
+        <div class="hot-topic"><b>3</b><span>2026 秋招作品集投递时间线</span></div>
+        <div class="hot-topic"><b>4</b><span>过程稿到底要放多少？</span></div>
+      </div>
+      <div class="side-box">
+        <h4>📌 社区公约</h4>
+        <p style="font-size:13px;color:var(--ink-2)">友善点评，互相鼓励；禁止抄袭与恶意拉踩，让好作品被温柔看见。</p>
+      </div>
+      <a class="btn btn-pink" style="width:100%;justify-content:center" href="editor.html">我也要发帖 ✍️</a>
+    </aside>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap"><div class="footer-bottom" style="border:none"><span>© 2026 集页 JIYE · 校园作业演示项目</span><span>Made with 💗 for graduates</span></div></div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

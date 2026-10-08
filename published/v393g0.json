@@ -1,0 +1,17 @@
+{
+  "id": "v393g0",
+  "title": "测试作品集",
+  "author": "叶林",
+  "major": "视觉传达设计",
+  "year": "2024",
+  "version": "毕业答辩版",
+  "description": "测试发布",
+  "works": [
+    {
+      "name": "test.txt",
+      "url": "/uploads/test.txt",
+      "isImage": false
+    }
+  ],
+  "publishedAt": "2026-09-22T02:23:24.471Z"
+}

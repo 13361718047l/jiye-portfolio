@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>登录 / 注册｜集页 JIYE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+SC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body style="background:linear-gradient(160deg,#FFE9EF,#FFF6F1 55%,#EAF7F2)">
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="logo" href="index.html"><span class="ji">集页</span> JIYE <small>PORTFOLIO</small></a>
+    <div class="nav-right"><button class="icon-btn" onclick="history.back()">←</button></div>
+  </div>
+</header>
+
+<div class="auth-wrap">
+  <div class="auth-card reveal">
+    <h1 id="auth-title">欢迎回来</h1>
+    <p class="tip">登录后作品集、模板收藏和社区互动都会自动同步</p>
+
+    <div class="auth-tabs">
+      <button class="on">登录</button><button>注册</button>
+    </div>
+
+    <div class="field"><label>手机号 / 邮箱</label><input placeholder="请输入手机号或邮箱" /></div>
+    <div class="field"><label>密码</label><input type="password" placeholder="请输入密码" /></div>
+
+    <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:20px">
+      <label style="color:var(--ink-2)"><input type="checkbox" checked /> 记住我</label>
+      <a style="color:var(--pink);font-weight:700">忘记密码？</a>
+    </div>
+
+    <a class="btn btn-pink btn-lg" style="width:100%;justify-content:center" href="works.html" onclick="JYToast('登录成功，欢迎回来 💗')">登 录</a>
+
+    <div class="auth-divider">其他方式一键登录</div>
+    <div class="social-login">
+      <button data-save-toast="请在手机上确认微信登录">💚</button>
+      <button data-save-toast="正在跳转 QQ 授权">🐧</button>
+      <button data-save-toast="正在跳转微博授权">🔴</button>
+    </div>
+
+    <p style="text-align:center;font-size:12.5px;color:var(--ink-3);margin-top:22px">继续即表示同意《用户协议》与《隐私政策》</p>
+  </div>
+</div>
+
+<script src="main.js"></script>
+</body>
+</html>
